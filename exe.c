@@ -5,25 +5,35 @@
  * @argv: the arguments
  * Return: status value
  */
-int _execute(char **command, char **argv)
+int _execute(char **command, char **argv, int idx)
 {
-    pid_t child;
-    int status;
+	pid_t child;
+	int status;
+	char *cmd;
 
-    child = fork();
-    if (child == 0)
-    {
-        if (execve(command[0], command, environ) == -1)
-        {
-            perror(argv[0]);
-            free_2_pointer(command);
-            exit(100);
-        }
-    }
-    else
-    {
-        waitpid(child, &status, 0);
-        free_2_pointer(command);
-    }
-    return (WEXITSTATUS(status));
+	cmd = get_path(command[0]);
+	if (!cmd)
+	{
+		fprintf(stderr, "%s:%d:%s: not found\n", argv[0], idx, command[0]);
+		free_2_pointer(command);
+		return (127);
+	}
+	child = fork();
+	if (child == 0)
+	{
+		if (execve(cmd, command, environ) == -1)
+		{
+			perror(argv[0]);
+			free_2_pointer(command);
+			free(cmd);
+			exit(100);
+		}
+	}
+	else
+	{
+		waitpid(child, &status, 0);
+		free_2_pointer(command);
+		free(cmd);
+	}
+	return (WEXITSTATUS(status));
 }
