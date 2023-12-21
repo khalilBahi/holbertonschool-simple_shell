@@ -14,7 +14,7 @@ int _execute(char **command, char **argv, int idx)
 	cmd = get_path(command[0]);
 	if (!cmd)
 	{
-		fprintf(stderr, "%s:%d:%s: not found\n", argv[0], idx, command[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n", argv[0], idx, command[0]);
 		free_2_pointer(command);
 		return (127);
 	}
