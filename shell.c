@@ -25,6 +25,6 @@ int main(int ac, char **argv)
 		if (command == NULL)
 			continue;
 
-		status = exec(command, av, idx);
+		status = _execute(command, argv, idx);
 	}
 }
