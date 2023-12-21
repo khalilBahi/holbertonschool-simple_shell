@@ -15,9 +15,11 @@
 #define DLM " \t\n"
 extern char **environ;
 
-int _execute(char **command, char **argv);
+int _execute(char **command, char **argv, int idx);
 char **tokenizer(char *line);
 char *read_line(void);
 void free_2_pointer(char **pointer);
+char *_getenv(char *pol);
+char *get_path(char *command);
 
 #endif
